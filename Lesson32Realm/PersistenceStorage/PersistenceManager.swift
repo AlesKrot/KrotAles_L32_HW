@@ -51,9 +51,20 @@ class RealmManager: PersistenceManager {
         }
     }
     
-    func remove(item: TODOListItem) {
-        
+    func remove(index: Int) {
+        let objects = realm.objects(TODOListItemObject.self)
+        let object = objects[index]
+        try! realm.write {
+            realm.delete(object)
+        }
     }
+//    func remove(item: TODOListItem) {
+//        //let objects = realm.objects(TODOListItemObject.self)
+//        let object = realm.object(ofType: TODOListItemObject.self, forPrimaryKey: item.createdDate)
+//        try! realm.write {
+//            realm.delete(object)
+//        }
+//    }
     
     func loadAllItems() -> [TODOListItem]? {
         let objects = realm.objects(TODOListItemObject.self)
