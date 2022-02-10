@@ -9,7 +9,7 @@ import UIKit
 
 protocol PersistenceManager {
     func save(item: TODOListItem)
-    func remove(index: Int)
+    func remove(item: TODOListItem)
     func loadAllItems() -> [TODOListItem]?
 }
 
@@ -42,8 +42,6 @@ class TODOListViewController: UIViewController {
     }
     
     func loadStoredItems() {
-//        guard let index = dataSource.deleteItemIndex else { return }
-//        persistenceManager?.remove(index: index)
         let items = persistenceManager?.loadAllItems()
         dataSource.items = items
         tableView.reloadData()
@@ -72,8 +70,13 @@ extension TODOListViewController: UITableViewDelegate {
 }
 
 extension TODOListViewController: TODOListItemDetailsDelegate {
-    func todoListItemDetailsViewController(_ controller: TODOListItemDetailsViewController, didFinishEditingOfItem item: TODOListItem) {
+    func toDoListItemDetailsViewController(_ controller: TODOListItemDetailsViewController, didFinishEditingOfItem item: TODOListItem) {
         persistenceManager?.save(item: item)
+        loadStoredItems()
+    }
+    
+    func removeItemToDoListItemDetailsViewController(_ controller: TODOListItemDetailsViewController, didRemoveOfItem item: TODOListItem) {
+        persistenceManager?.remove(item: item)
         loadStoredItems()
     }
 }

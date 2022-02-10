@@ -23,25 +23,12 @@ class RealmManager: PersistenceManager {
     }
     
     func save(item: TODOListItem) {
-//        if let object = realm.objects(TODOListItemObject.self)
-//            .where({ $0.createdDate == item.createdDate }).first {
-//            
-//            try? realm.write {
-//                object.body = item.body
-//                object.title = item.title
-//                object.lastUpdatedDate = item.lastUpdatedDate
-//            }
-//
-//            return
-//        }
-        
         if let object = realm.object(ofType: TODOListItemObject.self, forPrimaryKey: String(item.createdDate.timeIntervalSince1970)) {
             try? realm.write {
                 object.body = item.body
                 object.title = item.title
                 object.lastUpdatedDate = item.lastUpdatedDate
             }
-
             return
         }
         
@@ -51,20 +38,13 @@ class RealmManager: PersistenceManager {
         }
     }
     
-    func remove(index: Int) {
-        let objects = realm.objects(TODOListItemObject.self)
-        let object = objects[index]
-        try! realm.write {
-            realm.delete(object)
+    func remove(item: TODOListItem) {
+        if let object = realm.object(ofType: TODOListItemObject.self, forPrimaryKey: String(item.createdDate.timeIntervalSince1970)) {
+            try! realm.write {
+                realm.delete(object)
+            }
         }
     }
-//    func remove(item: TODOListItem) {
-//        //let objects = realm.objects(TODOListItemObject.self)
-//        let object = realm.object(ofType: TODOListItemObject.self, forPrimaryKey: item.createdDate)
-//        try! realm.write {
-//            realm.delete(object)
-//        }
-//    }
     
     func loadAllItems() -> [TODOListItem]? {
         let objects = realm.objects(TODOListItemObject.self)

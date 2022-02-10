@@ -40,7 +40,7 @@ class TODOListDataSource: NSObject, UITableViewDataSource {
         tableView.deleteRows(at: [indexPath], with: .fade)
         
         persistenceManager = RealmManager()
-        persistenceManager?.remove(index: indexPath.row)
+        persistenceManager?.remove(item: items![indexPath.row])
         items?.remove(at: indexPath.row)
         tableView.endUpdates()
     }

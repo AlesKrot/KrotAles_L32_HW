@@ -18,7 +18,7 @@ class InMemoryStorageManager: PersistenceManager {
         }
     }
     
-    func remove(index: Int) {
+    func remove(item: TODOListItem) {
         
     }
     
